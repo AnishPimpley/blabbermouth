@@ -1,0 +1,29 @@
+[project]
+name = "blabbermouth"
+version = "0.0.1"
+readme = "README.md"
+requires-python = ">=3.9"
+
+dependencies = [
+    "uv==0.1.27", # as inplace pip replacement
+    #"torch", # if cuda is available, it will install the GPU version
+    # "torchvision",
+    # "torchaudio",
+    "transformers",
+    # "sentence-transformers",
+    # "spacy[cuda12x]",
+    "langchain",
+    # "python-docx",
+    # "pypandoc",
+    # "unstructured[all-docs]",
+    # "tiktoken",
+    "openai",
+    # "faiss-gpu",
+    # "pyarrow",
+    # "ray[serve]",
+    # "einops",
+    "wheel", 
+    "setuptools",
+    #"flash-attn",
+    #"vllm",
+]
