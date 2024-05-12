@@ -5,7 +5,7 @@ import { Assistant, Thread } from '../assistant';
 import { fetchText } from '../lib/fetchText';
 import { assert } from '../lib/utils';
 import { EditorDriverApi } from './EditorDriverApi';
-import commandsPrompt from './completions-prompt.md';
+import { commandsPrompt } from './completions-prompt';
 
 import { getUserMessage } from './getUserMessage';
 
