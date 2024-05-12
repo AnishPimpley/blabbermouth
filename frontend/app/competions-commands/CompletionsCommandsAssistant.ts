@@ -9,7 +9,7 @@ import { EditorDriverApi } from './EditorDriverApi';
 import { getUserMessage } from './getUserMessage';
 
 const openai = new OpenAI({
-    apiKey: 'sk-proj-WffoeJpUSYeTPrGVJYrXT3BlbkFJ1LlOun7BhX5SlECdPnTx',
+    apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
     dangerouslyAllowBrowser: true,
 });
 
