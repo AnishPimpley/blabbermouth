@@ -5,20 +5,11 @@ import { Assistant, Thread } from '../assistant';
 import { fetchText } from '../lib/fetchText';
 import { assert } from '../lib/utils';
 import { EditorDriverApi } from './EditorDriverApi';
-import { commandsPrompt } from './completions-prompt';
 
 import { getUserMessage } from './getUserMessage';
 
-const apiKey = process.env.OPENAI_API_KEY ?? null;
-
-if (!apiKey) {
-    throw Error(
-        `Error: OpenAI API key not found, please create an API Key in the OpenAI platform and add it as .env.VITE_OPENAI_API_KEY`
-    );
-}
-
 const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY!,
+    apiKey: 'sk-proj-WffoeJpUSYeTPrGVJYrXT3BlbkFJ1LlOun7BhX5SlECdPnTx',
     dangerouslyAllowBrowser: true,
 });
 
@@ -30,7 +21,7 @@ export class CompletionCommandsAssistant
     systemPrompt: string | null = null;
 
     getDefaultSystemPrompt(): Promise<string> {
-        return fetchText(commandsPrompt);
+        return fetchText();
     }
 
     async setSystemPrompt(prompt: string) {

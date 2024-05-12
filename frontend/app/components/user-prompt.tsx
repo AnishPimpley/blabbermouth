@@ -7,6 +7,8 @@ import {
 import { useCallback, useEffect, useState } from 'react';
 import { Assistant, Thread } from '../assistant';
 import { Spinner } from './spinner';
+import { FloatButton } from 'antd';
+import { AudioOutlined } from '@ant-design/icons';
 
 function assert(condition: unknown, message?: string): asserts condition {
     if (!condition) {
@@ -102,6 +104,18 @@ export function UserPrompt<T>({ assistant }: { assistant: Assistant<T> }) {
 
     return (
         <>
+            <FloatButton
+                type="primary"
+                icon={<AudioOutlined style={{ fontSize: '20px' }} />}
+                style={{
+                    position: 'absolute',
+                    width: 80,
+                    height: 80,
+                    bottom: 100,
+                    left: 10,
+                }}
+                onClick={() => {}}
+            />
             {state === 'waiting' && (
                 <div
                     className="user-prompt__overlay"

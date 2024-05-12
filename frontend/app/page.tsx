@@ -19,31 +19,7 @@ const components: TLEditorComponents = {
 export default function Home() {
     return (
         <div style={{ position: 'fixed', inset: 0 }}>
-            <Tldraw
-                persistenceKey="blabbermouth"
-                components={{
-                    InFrontOfTheCanvas: useCallback(() => {
-                        return (
-                            <FloatButton
-                                type="primary"
-                                icon={
-                                    <AudioOutlined
-                                        style={{ fontSize: '20px' }}
-                                    />
-                                }
-                                style={{
-                                    position: 'absolute',
-                                    width: 80,
-                                    height: 80,
-                                    bottom: 100,
-                                    left: 10,
-                                }}
-                                onClick={() => {}}
-                            />
-                        );
-                    }, []),
-                }}
-            />
+            <Tldraw persistenceKey="blabbermouth" components={components} />
         </div>
     );
 }
