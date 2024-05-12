@@ -5,11 +5,17 @@ import { Assistant, Thread } from '../assistant';
 import { fetchText } from '../lib/fetchText';
 import { assert } from '../lib/utils';
 import { EditorDriverApi } from './EditorDriverApi';
+import fs from 'fs';
 
 import { getUserMessage } from './getUserMessage';
+const Groq = require("groq-sdk");
+const groq = new Groq({apiKey: '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', dangerouslyAllowBrowser: true});
+
 
 const openai = new OpenAI({
-    apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
+    // apiKey: 'sk-proj-mC5TasNOgOIAClipprJJT3BlbkFJ4TlALxdlUl8bTBbiSsP0',
+    apiKey: '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',
+    baseURL: 'https://api.groq.com/openai/v1/',
     dangerouslyAllowBrowser: true,
 });
 
@@ -54,10 +60,51 @@ export class CompletionCommandsThread implements Thread<ChatCompletionStream> {
     currentStream: ChatCompletionStream | null = null;
 
     async sendMessage(userMessage: string) {
+        const tools = [
+            {
+              type: "function",
+              function: {
+                name: "createCircle",
+                description: "Create a circle with the given radius",
+                parameters: {
+                  type: "object",
+                  properties: {
+                    radius: {
+                      type: "number",
+                      description: "Radius of the circle",
+                    },
+                    unit: { type: "number"},
+                  },
+                  required: ["radius"],
+                },
+              },
+            },
+            {
+              type: "function",
+              function: {
+                name: "createSquare",
+                description: "Create a square with the given side length",
+                parameters: {
+                  type: "object",
+                  properties: {
+                    sideLength: {
+                      type: "number",
+                      description: "length of side of the square",
+                    },
+                    unit: { type: "number"},
+                  },
+                  required: ["sideLength"],
+                },
+              },
+            }
+          ];
         if (this.currentStream) {
             this.messages.pop();
             await this.cancel();
         }
+
+        const data = fs.readFileSync('./transcript.txt', 'utf8');
+        console.log(data);
 
         this.messages.push({
             role: 'user',
@@ -65,11 +112,40 @@ export class CompletionCommandsThread implements Thread<ChatCompletionStream> {
         });
 
         const stream = openai.beta.chat.completions.stream({
-            model: 'gpt-4',
+            model: 'llama3-70b-8192',
+            // model: 'gpt-4',
             messages: this.messages,
         });
 
+        console.log(stream);
         this.currentStream = stream;
+        
+        // const groq_response = await groq.chat.completions.create({
+        //     // messages: [
+        //     //     {
+        //     //         role: "system",
+        //     //         content: "you are a helpful assistant."
+        //     //     },
+                
+        //     //     {
+        //     //         role: "user",
+        //     //         content: "Create a circle with radius 10"
+        //     //     }
+        //     // ],
+        //     messages: this.messages,
+            
+        //     // tools: tools,
+        //     model: "llama3-70b-8192",
+        //     temperature: 0,
+        //     max_tokens: 1024,
+        //     top_p: 1,
+        //     stop: null,
+        //     stream: true
+        // });
+        
+        // console.log(groq_response)
+        // this.currentStream = groq_response;
+        
 
         return stream;
     }
