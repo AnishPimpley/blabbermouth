@@ -1,16 +1,26 @@
 'use client';
 
+import { useMemo } from 'react';
 import { useCallback } from 'react';
-import { Tldraw } from 'tldraw';
+import { TLEditorComponents, Tldraw } from 'tldraw';
 import './index.css';
 import { FloatButton } from 'antd';
 import { AudioOutlined } from '@ant-design/icons';
+import { UserPrompt } from './components/user-prompt';
+import { CompletionCommandsAssistant } from './competions-commands/CompletionsCommandsAssistant';
+
+const components: TLEditorComponents = {
+    InFrontOfTheCanvas: () => {
+        const assistant = useMemo(() => new CompletionCommandsAssistant(), []);
+        return <UserPrompt assistant={assistant} />;
+    },
+};
 
 export default function Home() {
     return (
         <div style={{ position: 'fixed', inset: 0 }}>
             <Tldraw
-                persistenceKey="things-on-the-canvas-example"
+                persistenceKey="blabbermouth"
                 components={{
                     InFrontOfTheCanvas: useCallback(() => {
                         return (
@@ -28,6 +38,7 @@ export default function Home() {
                                     bottom: 100,
                                     left: 10,
                                 }}
+                                onClick={() => {}}
                             />
                         );
                     }, []),
